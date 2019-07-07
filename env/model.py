@@ -14,15 +14,15 @@ class MallModel(Model):
     def __init__(self,
                  height=20,
                  width=20,
-                 initial_security=15,
-                 initial_gates=5,
+                 num_security=15,
+                 num_gates=5,
                  active_guards=False,
                  guard_follow_time=2):
         # Set parameters
         self.height = height
         self.width = width
-        self.initial_security = initial_security
-        self.initial_gates = initial_gates
+        self.num_security = num_security
+        self.num_gates = num_gates
 
         self.schedule = MallActivation(self)
         self.grid = MultiGrid(self.height, self.width, torus=True)
@@ -36,7 +36,7 @@ class MallModel(Model):
         object_locs = [(self.width // 2, self.height // 2)]
         i = 0
         # for i in range(self.initial_security):
-        while i < self.initial_security:
+        while i < self.num_security:
             x = random.randrange(self.width)
             y = random.randrange(self.height)
             if (x, y) not in object_locs:
@@ -50,7 +50,7 @@ class MallModel(Model):
                 i += 1
 
         i = 0
-        while i < self.initial_gates // 2:
+        while i < self.num_gates // 2:
             x = random.randrange(self.width)
             y = random.choice([0, self.height - 1])
             if (x, y) not in object_locs:
@@ -59,7 +59,7 @@ class MallModel(Model):
                 self.grid.place_agent(gate, (x, y))
                 self.schedule.add(gate)
                 i += 1
-        while i < self.initial_gates:
+        while i < self.num_gates:
             x = random.choice([0, self.width - 1])
             y = random.randrange(self.height)
             if (x, y) not in object_locs:
